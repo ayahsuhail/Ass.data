@@ -1,0 +1,51 @@
+
+import java.util.Scanner;
+
+public class BaseTypesExample {
+
+    public static void inputAllBaseTypes() {
+        // Input each base type
+        try (Scanner scanner = new Scanner(System.in)) {
+            // Input each base type
+            System.out.println("Enter a byte value:");
+            byte byteValue = scanner.nextByte();
+            
+            System.out.println("Enter a short value:");
+            short shortValue = scanner.nextShort();
+            
+            System.out.println("Enter an int value:");
+            int intValue = scanner.nextInt();
+            
+            System.out.println("Enter a long value:");
+            long longValue = scanner.nextLong();
+            
+            System.out.println("Enter a float value:");
+            float floatValue = scanner.nextFloat();
+            
+            System.out.println("Enter a double value:");
+            double doubleValue = scanner.nextDouble();
+            
+            System.out.println("Enter a char value:");
+            char charValue = scanner.next().charAt(0);
+            
+            System.out.println("Enter a boolean value:");
+            boolean booleanValue = scanner.nextBoolean();
+            
+            // Print the values
+            System.out.println("\nYou entered:");
+            System.out.println("byte: " + byteValue);
+            System.out.println("short: " + shortValue);
+            System.out.println("int: " + intValue);
+            System.out.println("long: " + longValue);
+            System.out.println("float: " + floatValue);
+            System.out.println("double: " + doubleValue);
+            System.out.println("char: " + charValue);
+            System.out.println("boolean: " + booleanValue);
+        }
+    }
+
+    public static void main(String[] args) {
+        inputAllBaseTypes();
+    }
+}
+

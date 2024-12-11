@@ -1,0 +1,85 @@
+
+public class CreditCard {
+    // Instance variables
+    private String customer;
+    private String bank;     
+    private String account;  
+    private int limit;       
+    private double balance;  
+
+    public CreditCard(String customer, String bank, String account, int limit, double initialBalance) {
+        this.customer = customer;
+        this.bank = bank;
+        this.account = account;
+        this.limit = limit;
+        this.balance = initialBalance;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public String getBank() {
+        return bank;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public boolean charge(double price) {
+        if (price + balance > limit) { // if charge exceeds limit
+            return false;             // transaction rejected
+        }
+        balance += price;
+        return true;                  // transaction accepted
+    }
+
+    public void makePayment(double amount) {
+        balance -= amount;
+    }
+
+    public void updateLimit(int newLimit) {
+        if (newLimit < 0) {
+            throw new IllegalArgumentException("Credit limit cannot be negative.");
+        }
+        this.limit = newLimit;
+    }
+
+    public static void printSummary(CreditCard card) {
+        System.out.println("Customer = " + card.customer);
+        System.out.println("Bank = " + card.bank);
+        System.out.println("Account = " + card.account);
+        System.out.println("Limit = " + card.limit);
+        System.out.println("Balance = " + card.balance);
+    }
+
+    public static void main(String[] args) {
+        CreditCard card = new CreditCard("John Bowman", "California Savings", "5391 0375 9387 5309", 5000, 1000.0);
+
+        // Print initial details
+        CreditCard.printSummary(card);
+
+        // Update the credit limit
+        card.updateLimit(7000);
+        System.out.println("\nAfter updating the credit limit:");
+        CreditCard.printSummary(card);
+
+        // Attempt an invalid limit update
+        try {
+            card.updateLimit(-2000); // Should throw an exception
+        } catch (IllegalArgumentException e) {
+            System.out.println("\nError: " + e.getMessage());
+        }
+    }
+}
+
+
