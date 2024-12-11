@@ -1,3 +1,13 @@
-جابة السؤال 10
+public boolean charge(double price) {
+    boolean isSuccess = super.charge(price);
 
-قيمة score في الكائن GameEntry المشار إليه من B[4] ستكون 550 أيضًا بعد أن تقوم بتعيين A[4].score إلى 550، لأن A[4] و B[4] يشيران إلى نفس الكائن في الذاكرة.
+    // إذا فشلت عملية الخصم، تحقق إذا كان يمكن خصم العقوبة
+    if (!isSuccess) {
+        // تحقق إذا كانت العقوبة ستبقى ضمن الحد
+        if (getBalance() + 5 <= getCreditLimit()) {
+            super.charge(5); // فرض العقوبة فقط إذا كانت لا تتجاوز الحد
+        }
+    }
+
+    return isSuccess;
+}

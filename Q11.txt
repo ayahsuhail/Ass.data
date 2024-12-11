@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class ArrayOutOfBoundsHandler {
+    public static void main(String[] args) {
+        int[] x = {11, 12, 13, 14, 15};
+
+        System.out.println("Input an index to print (negative number to exit):");
+
+        Scanner input = new Scanner(System.in);
+        int y = input.nextInt();
+
+        while (y >= 0) {
+            try {
+                // Attempt to access the array element
+                System.out.println("Value at index " + y + ": " + x[y]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                // Handle out-of-bounds access
+                System.out.println("Don't try buffer overflow attacks in Java!");
+            }
+            // Prompt for the next index
+            y = input.nextInt();
+        }
+
+        System.out.println("Program exited successfully.");
+        input.close();
+    }
+}

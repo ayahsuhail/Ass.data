@@ -1,0 +1,40 @@
+classDiagram
+    class Object {
+        <<abstract>>
+    }
+
+    class Goat {
+        - tail
+        + milk()
+        + jump()
+    }
+
+    class Pig {
+        - nose
+        + eat(food)
+        + wallow()
+    }
+
+    class Horse {
+        - height
+        - color
+        + run()
+        + jump()
+    }
+
+    class Racer {
+        + race()
+    }
+
+    class Equestrian {
+        - weight
+        - isTrained
+        + trot()
+        + isTrained()
+    }
+
+    Object <|-- Goat
+    Object <|-- Pig
+    Object <|-- Horse
+    Horse <|-- Racer
+    Horse <|-- Equestrian

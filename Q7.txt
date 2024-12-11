@@ -1,0 +1,82 @@
+// الفئة الأساسية CreditCard
+public class CreditCard {
+    private double balance;  // الرصيد
+    private double creditLimit;  // الحد الائتماني
+
+    // منشئ الفئة
+    public CreditCard(double initialBalance, double creditLimit) {
+        balance = initialBalance;
+        this.creditLimit = creditLimit;
+    }
+
+    // طريقة charge في الفئة الأساسية
+    public boolean charge(double price) {
+        if (price + balance > creditLimit) {
+            // إذا كان السعر يتجاوز الحد الائتماني، فشل الخصم
+            return false;
+        }
+        balance += price;  // خصم السعر من الرصيد
+        return true;  // الخصم تم بنجاح
+    }
+
+    // استرجاع الرصيد
+    public double getBalance() {
+        return balance;
+    }
+
+    // استرجاع الحد الائتماني
+    public double getCreditLimit() {
+        return creditLimit;
+    }
+}
+
+// الفئة الفرعية PredatoryCreditCard
+public class PredatoryCreditCard extends CreditCard {
+
+    // منشئ الفئة
+    public PredatoryCreditCard(double initialBalance, double creditLimit) {
+        super(initialBalance, creditLimit);
+    }
+
+    // طريقة charge في الفئة الفرعية مع إضافة غرامة في حالة الفشل
+    public boolean charge(double price) {
+        // محاولة خصم السعر
+        boolean isSuccess = super.charge(price);
+
+        // إذا فشل الخصم، قم بإضافة غرامة
+        if (!isSuccess) {
+            // تحقق من إمكانية إضافة الغرامة
+            if (getBalance() + 5 <= getCreditLimit()) {
+                // إضافة الغرامة إلى الرصيد
+                balance += 5;
+                System.out.println("تم إضافة غرامة بقيمة 5 بسبب فشل الخصم.");
+            }
+            return false;  // فشل الخصم
+        }
+
+        return true;  // نجاح الخصم
+    }
+}
+
+// الفئة الرئيسية لاختبار الكود
+public class Main {
+    public static void main(String[] args) {
+        // إنشاء كائن من PredatoryCreditCard
+        PredatoryCreditCard card = new PredatoryCreditCard(500.0, 1000.0); // رصيد أولي: 500، الحد الائتماني: 1000
+
+        // محاولة خصم مبلغ يتجاوز الحد الائتماني
+        if (!card.charge(600.0)) { // محاولة خصم 600
+            System.out.println("فشل الخصم. الرصيد بعد الغرامة: " + card.getBalance());
+        }
+
+        // محاولة خصم مبلغ بعد إضافة الغرامة
+        if (!card.charge(600.0)) { // محاولة خصم 600 مرة أخرى
+            System.out.println("فشل الخصم مرة أخرى. الرصيد بعد الغرامة: " + card.getBalance());
+        }
+
+        // محاولة خصم مبلغ بنجاح
+        if (card.charge(400.0)) {
+            System.out.println("تم الخصم بنجاح. الرصيد المتبقي: " + card.getBalance());
+        }
+    }
+}

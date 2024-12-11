@@ -1,0 +1,11 @@
+interface Parent { 
+    void commonMethod(); 
+}
+
+interface A extends Parent { 
+    void methodA(); 
+}
+
+interface B extends Parent { 
+    void methodB(); 
+}

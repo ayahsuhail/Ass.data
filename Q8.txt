@@ -1,0 +1,59 @@
+public class Maryland extends State {
+    Maryland() {
+        /* null constructor */
+    }
+
+    @Override
+    public void printMe() {
+        System.out.println("Read it.");
+    }
+
+    public static void main(String[] args) {
+        Region east = new State();
+        State md = new Maryland();
+        Object obj = new Place();
+        Place usa = new Region();
+
+        md.printMe();                     // Line 1
+        east.printMe();                   // Line 2
+        ((Place) obj).printMe();          // Line 3
+        obj = md;                         
+        ((Maryland) obj).printMe();       // Line 4
+        obj = usa;                        
+        ((Place) obj).printMe();          // Line 5
+        usa = md;                         
+        ((Place) usa).printMe();          // Line 6
+    }
+}
+
+class State extends Region {
+    State() {
+        /* null constructor */
+    }
+
+    @Override
+    public void printMe() {
+        System.out.println("Ship it.");
+    }
+}
+
+class Region extends Place {
+    Region() {
+        /* null constructor */
+    }
+
+    @Override
+    public void printMe() {
+        System.out.println("Box it.");
+    }
+}
+
+class Place {
+    Place() {
+        /* null constructor */
+    }
+
+    public void printMe() {
+        System.out.println("Buy it.");
+    }
+}
