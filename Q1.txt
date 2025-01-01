@@ -1,12 +1,6 @@
-public boolean charge(double price) {
-    boolean isSuccess = super.charge(price);
-    
-    // إذا فشلت عملية الخصم
-    if (!isSuccess) {
-        // تحقق إذا كان يمكن خصم العقوبة
-        if (balance + 5 <= creditLimit) { // شرط يمنع تجاوز الحد
-            super.charge(5); // خصم العقوبة لمرة واحدة
-        }
-    }
-    return isSuccess;
-}
+حل السؤال R-3.1
+
+الإجابة:
+
+الأعداد هي: 9، 13، 61، 37، 49.
+

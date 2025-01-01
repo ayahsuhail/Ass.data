@@ -1,16 +1,23 @@
-public class Q11 {
-    public static boolean isMultiple(long n, long m) {
-        // A number n is a multiple of m if m is not zero and n % m == 0
-        if (m == 0) {
-            throw new IllegalArgumentException("The second parameter (m) cannot be zero.");
+import java.util.Random;
+import java.util.Arrays;
+
+public class Q3 {
+    public static void removeRandomEntries(int[] array) {
+        Random random = new Random();
+        while (array.length > 0) {
+            // اختيار فهرس عشوائي
+            int index = random.nextInt(array.length);
+
+            // طباعة العنصر الذي سيتم إزالته
+            System.out.println("Removing: " + array[index]);
+
+            // إنشاء مصفوفة جديدة بدون العنصر المحذوف
+            array = Arrays.copyOfRange(array, 0, index) + Arrays.copyOfRange(array, index + 1, array.length);
         }
-        return n % m == 0;
     }
 
     public static void main(String[] args) {
-        // Example usage
-        System.out.println(isMultiple(10, 2)); // true
-        System.out.println(isMultiple(10, 3)); // false
-        System.out.println(isMultiple(0, 5));  // true
+        int[] array = {1, 2, 3, 4, 5};
+        removeRandomEntries(array);
     }
 }

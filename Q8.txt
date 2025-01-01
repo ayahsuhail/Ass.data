@@ -1,59 +1,30 @@
-public class Maryland extends State {
-    Maryland() {
-        /* null constructor */
-    }
 
-    @Override
-    public void printMe() {
-        System.out.println("Read it.");
-    }
+الكود:
 
-    public static void main(String[] args) {
-        Region east = new State();
-        State md = new Maryland();
-        Object obj = new Place();
-        Place usa = new Region();
+def find_repeated_elements(B):
+    distinct_elements = set()  # مجموعة لتخزين العناصر المميزة
+    repeated_elements = []     # قائمة لتخزين العناصر المكررة
 
-        md.printMe();                     // Line 1
-        east.printMe();                   // Line 2
-        ((Place) obj).printMe();          // Line 3
-        obj = md;                         
-        ((Maryland) obj).printMe();       // Line 4
-        obj = usa;                        
-        ((Place) obj).printMe();          // Line 5
-        usa = md;                         
-        ((Place) usa).printMe();          // Line 6
-    }
-}
+    for b in B:
+        if b in distinct_elements:
+            if b not in repeated_elements:  # إضافة العنصر فقط مرة واحدة
+                repeated_elements.append(b)
+            if len(repeated_elements) == 5:  # التوقف بعد إيجاد جميع العناصر المكررة
+                break
+        else:
+            distinct_elements.add(b)
 
-class State extends Region {
-    State() {
-        /* null constructor */
-    }
+    return repeated_elements
 
-    @Override
-    public void printMe() {
-        System.out.println("Ship it.");
-    }
-}
+تحليل الخوارزمية:
 
-class Region extends Place {
-    Region() {
-        /* null constructor */
-    }
+تعقيد الزمن: O(n)، حيث n هو حجم المصفوفة B. نقوم بالتكرار عبر المصفوفة مرة واحدة، وكل عملية بحث وإضافة في المجموعة أو القائمة تتم في وقت ثابت (O(1)).
 
-    @Override
-    public void printMe() {
-        System.out.println("Box it.");
-    }
-}
+تعقيد المساحة: O(n)، لأن المجموعة distinct_elements قد تخزن ما يصل إلى n - 5 عنصرًا مميزًا. وبالتالي، فإن المساحة المطلوبة ستكون متناسبة مع حجم المصفوفة B.
 
-class Place {
-    Place() {
-        /* null constructor */
-    }
 
-    public void printMe() {
-        System.out.println("Buy it.");
-    }
-}
+ملاحظات:
+
+تعقيد المساحة: الكود يعمل بشكل جيد، حيث نستخدم مجموعة لتخزين العناصر المميزة وقائمة لتخزين العناصر المكررة. لكن المساحة المستخدمة تعتمد على عدد العناصر في المصفوفة، وبالتالي التعقيد هو O(n).
+
+التوقف بعد العثور على العناصر المكررة: بمجرد أن نجد جميع العناصر المكررة (الخمس عناصر)، نوقف التكرار باستخدام شرط if len(repeated_elements) == 5.

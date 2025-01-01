@@ -1,30 +1,79 @@
-public class CreditCard {
-    private double balance;
+الطريقة التي قدمتها هي خوارزمية فيشر-ياتس (Fisher-Yates Shuffle)، وهي خوارزمية معروفة لخلط عناصر المصفوفة بحيث يكون كل ترتيب ممكن متساوي الاحتمال. هذه الخوارزمية تضمن أن كل ترتيب من التراكيب الممكنة للأرقام في المصفوفة له نفس الفرصة في الظهور.
 
-    public CreditCard(double initialBalance) {
-        balance = initialBalance;
-    }
+شرح الخوارزمية:
 
-    public void makePayment(double amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("Negative Amount is not allowed.");
+يبدأ التكرار من العنصر الأخير في المصفوفة (من الخلف إلى الأمام).
+
+في كل تكرار، يتم اختيار فهرس عشوائي j في المدى [0, i] (أي يشمل الفهرس الحالي).
+
+ثم يتم تبديل العنصر الموجود في الفهرس i مع العنصر الموجود في الفهرس العشوائي j.
+
+
+الكود المعدل:
+
+import java.util.Random;
+
+public class ShuffleArray {
+    public static void shuffle(int[] A) {
+        Random rnd = new Random();
+
+        // التكرار من العنصر الأخير إلى العنصر الثاني
+        for (int i = A.length - 1; i > 0; i--) {
+            // توليد فهرس عشوائي من 0 إلى i (شامل)
+            int j = rnd.nextInt(i + 1);
+
+            // تبديل العنصر الحالي مع العنصر العشوائي
+            int temp = A[i];
+            A[i] = A[j];
+            A[j] = temp;
         }
-        balance -= amount;
-    }
-
-    public double getBalance() {
-        return balance;
     }
 
     public static void main(String[] args) {
-        CreditCard card = new CreditCard(500.0); // Initial balance: $500
-        try {
-            card.makePayment(100); // Valid payment
-            System.out.println("New balance: $" + card.getBalance());
+        // مثال لاستخدام الدالة
+        int[] A = {1, 2, 3, 4, 5};
+        shuffle(A);
 
-            card.makePayment(-50); // Invalid payment
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+        // طباعة المصفوفة المختلطة
+        for (int num : A) {
+            System.out.print(num + " ");
         }
     }
 }
+
+شرح الكود:
+
+1. كائن Random:
+
+يتم إنشاء كائن من نوع Random يسمى rnd لاستخدامه في توليد أرقام عشوائية عبر دالة nextInt().
+
+
+
+2. التكرار (Loop):
+
+يبدأ التكرار من العنصر الأخير في المصفوفة i = A.length - 1 وينتهي عند العنصر الثاني (i > 0).
+
+في كل تكرار، يتم اختيار فهرس عشوائي j بين 0 و i (شامل) باستخدام rnd.nextInt(i + 1).
+
+
+
+3. التبديل (Swap):
+
+يتم تبديل العنصر الموجود في الفهرس i مع العنصر الموجود في الفهرس العشوائي j باستخدام متغير مؤقت temp لاحتواء أحد العناصر أثناء التبديل.
+
+
+
+
+تعقيد الزمن:
+
+O(n) حيث أن n هو حجم المصفوفة. يتم تنفيذ التكرار مرة واحدة فقط على كل العناصر، وكل عملية (مثل توليد رقم عشوائي وتبديل العناصر) تأخذ وقتًا ثابتًا.
+
+
+تعقيد المساحة:
+
+O(1)، حيث أن الخوارزمية تعدل المصفوفة في المكان ولا تحتاج إلى مساحة إضافية سوى متغير مؤقت (temp).
+
+
+النتيجة:
+
+بعد تنفيذ هذه الطريقة، ستكون المصفوفة A قد تم خلطها بشكل عشوائي حيث أن كل ترتيب ممكن له نفس الاحتمال.

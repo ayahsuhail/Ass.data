@@ -1,27 +1,35 @@
-import java.util.Scanner;
 
-public class ArrayOutOfBoundsHandler {
-    public static void main(String[] args) {
-        int[] x = {11, 12, 13, 14, 15};
+إذا كان أي من الأعداد في المصفوفة يساوي 0، فإن . الاحتمال أن يكون عنصر معين في المصفوفة  مساويًا لـ 0 هو ، لأن الأرقام التي يتم توليدها تتراوح بين 0 و 9.
 
-        System.out.println("Input an index to print (negative number to exit):");
+إذا كان احتمال أن لا يكون أي عدد في المصفوفة  مساوياً لـ 0 هو  (لأن هناك 9 أرقام أخرى غير 0). لذا، الاحتمال أن لا يكون هناك أي 0 في المصفوفة  من 100 عدد هو:
 
-        Scanner input = new Scanner(System.in);
-        int y = input.nextInt();
+\left( \frac{9}{10} \right)^{100}
 
-        while (y >= 0) {
-            try {
-                // Attempt to access the array element
-                System.out.println("Value at index " + y + ": " + x[y]);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                // Handle out-of-bounds access
-                System.out.println("Don't try buffer overflow attacks in Java!");
-            }
-            // Prompt for the next index
-            y = input.nextInt();
-        }
+P(x = 0) = 1 - \left( \frac{9}{10} \right)^{100}
 
-        System.out.println("Program exited successfully.");
-        input.close();
-    }
-}
+الاحتمال الذي فيه :
+
+وبالمثل، الاحتمال أن  هو:
+
+P(x \neq 0) = \left( \frac{9}{10} \right)^{100}
+
+تحديد العدد الذي ستكون قيمته مع احتمال لا يقل عن 0.99:
+
+نحن نبحث عن العدد الذي سيكون  مساوياً له مع احتمال لا يقل عن 0.99. أي أن:
+
+P(x = 0) \geq 0.99
+
+1 - \left( \frac{9}{10} \right)^{100} \geq 0.99
+
+\left( \frac{9}{10} \right)^{100} \leq 0.01
+
+باستخدام حسابات تقريبية، نجد أن  بالفعل أقل من 0.01.
+
+الخلاصة:
+
+العدد الذي سيكون  مساوياً له مع احتمال لا يقل عن 0.99 هو 0، لأن الاحتمال أن  يكون أعلى بكثير من 0.99.
+
+صيغة الاحتمال: الاحتمال أن  هو:
+
+
+P(x = 0) = 1 - \left( \frac{9}{10} \right)^{100}
