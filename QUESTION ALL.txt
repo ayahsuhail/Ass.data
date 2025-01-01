@@ -1,0 +1,118 @@
+
+
+حل الواجب:LAB 5
+
+1. إعادة تصميم دالة addFirst لتجنب استخدام متغير محلي: يمكن تعديل التنفيذ لإضافة عقدة جديدة في بداية القائمة الدائرية باستخدام مؤشرات مباشرة.
+
+public void addFirst(E element) {
+    Node<E> newNode = new Node<>(element, null);
+    if (tail == null) {
+        tail = newNode;
+        tail.next = tail; // الربط بنفسها
+    } else {
+        newNode.next = tail.next;
+        tail.next = newNode;
+    }
+}
+
+
+2. تنفيذ دالة size بدون استخدام متغير عدد العقد: يتم حساب عدد العقد ديناميكيًا عن طريق التكرار.
+
+public int size() {
+    if (tail == null) return 0;
+    int count = 1;
+    Node<E> current = tail.next;
+    while (current != tail) {
+        count++;
+        current = current.next;
+    }
+    return count;
+}
+
+
+3. تنفيذ دالة equals: للتحقق من تطابق قائمتين دائريتين، يجب مقارنة جميع العناصر بشكل تسلسلي.
+
+public boolean equals(CircularlyLinkedList<E> other) {
+    if (this.size() != other.size()) return false;
+    Node<E> currentA = this.tail.next;
+    Node<E> currentB = other.tail.next;
+    do {
+        if (!currentA.data.equals(currentB.data)) return false;
+        currentA = currentA.next;
+        currentB = currentB.next;
+    } while (currentA != this.tail.next);
+    return true;
+}
+
+
+4. التحقق إذا كانت قائمتان دائريتان تحتويان على نفس التسلسل: يمكن استخدام مؤشر للتحقق من كل عنصر في قائمة بالنسبة للعناصر في القائمة الأخرى مع نقاط بداية مختلفة.
+
+public boolean hasSameSequence(CircularlyLinkedList<E> other) {
+    if (this.size() != other.size()) return false;
+    Node<E> startA = this.tail.next;
+    Node<E> startB = other.tail.next;
+
+    for (int i = 0; i < this.size(); i++) {
+        Node<E> currentA = startA;
+        Node<E> currentB = startB;
+        boolean match = true;
+        for (int j = 0; j < this.size(); j++) {
+            if (!currentA.data.equals(currentB.data)) {
+                match = false;
+                break;
+            }
+            currentA = currentA.next;
+            currentB = currentB.next;
+        }
+        if (match) return true;
+        startB = startB.next;
+    }
+    return false;
+}
+
+
+5. تقسيم قائمة دائرية إلى قائمتين دائريتين بحجم متساوٍ: يمكن استخدام مؤشرين (بطيء وسريع) لتحديد نقطة التقسيم.
+
+public CircularlyLinkedList<E>[] split() {
+    CircularlyLinkedList<E>[] result = new CircularlyLinkedList[2];
+    result[0] = new CircularlyLinkedList<>();
+    result[1] = new CircularlyLinkedList<>();
+
+    if (tail == null) return result;
+
+    Node<E> slow = tail.next;
+    Node<E> fast = tail.next;
+
+    while (fast.next != tail.next && fast.next.next != tail.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+
+    // إنشاء القائمتين
+    result[0].tail = slow;
+    result[1].tail = tail;
+
+    // تحديث المؤشرات الدائرية
+    Node<E> temp = slow.next;
+    slow.next = result[0].tail.next;
+    result[1].tail.next = temp;
+
+    return result;
+}
+
+
+6. تنفيذ دالة clone: يتم إنشاء نسخة عميقة من القائمة الدائرية.
+
+public CircularlyLinkedList<E> clone() {
+    CircularlyLinkedList<E> clonedList = new CircularlyLinkedList<>();
+    if (tail == null) return clonedList;
+
+    Node<E> current = tail.next;
+    do {
+        clonedList.addLast(current.data);
+        current = current.next;
+    } while (current != tail.next);
+
+    return clonedList;
+}
+
