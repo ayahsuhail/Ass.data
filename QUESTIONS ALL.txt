@@ -1,0 +1,90 @@
+
+
+حل QUESTIONS:
+
+1. تطوير طريقة equals: يتم تنفيذ طريقة equals لمقارنة قائمتين مترابطتين مفردتين عن طريق التحقق من كل عقدة في القائمتين للتأكد من أن القيم متساوية. إذا كانت القيم في كل عقدة مطابقة والقائمتان بنفس الطول، يتم إرجاع true، وإلا يتم إرجاع false.
+
+public boolean equals(SinglyLinkedList other) {
+    if (this.size() != other.size()) return false;
+    Node currentA = this.head;
+    Node currentB = other.head;
+    while (currentA != null) {
+        if (!currentA.data.equals(currentB.data)) return false;
+        currentA = currentA.next;
+        currentB = currentB.next;
+    }
+    return true;
+}
+
+
+2. إيجاد العقدة قبل الأخيرة: يمكن إيجاد العقدة قبل الأخيرة عن طريق استخدام مؤشرين:
+
+public Node findSecondToLast() {
+    if (head == null || head.next == null) return null;
+    Node current = head;
+    while (current.next.next != null) {
+        current = current.next;
+    }
+    return current;
+}
+
+
+3. تنفيذ دالة size بدون متغير عدد العقد: يتم حساب عدد العقد ديناميكياً عن طريق التكرار على العقد.
+
+public int size() {
+    int count = 0;
+    Node current = head;
+    while (current != null) {
+        count++;
+        current = current.next;
+    }
+    return count;
+}
+
+
+4. تنفيذ دالة rotate: يتم تدوير القائمة عن طريق إزالة العقدة الأولى وإضافتها إلى النهاية.
+
+public void rotate() {
+    if (head == null || head.next == null) return;
+    Node oldHead = head;
+    head = head.next;
+    Node current = head;
+    while (current.next != null) {
+        current = current.next;
+    }
+    current.next = oldHead;
+    oldHead.next = null;
+}
+
+
+5. دمج قائمتين مترابطتين: يمكن دمج قائمتين عن طريق وصل آخر عقدة من القائمة الأولى برأس القائمة الثانية.
+
+public void concatenate(SinglyLinkedList other) {
+    if (head == null) {
+        head = other.head;
+        return;
+    }
+    Node current = head;
+    while (current.next != null) {
+        current = current.next;
+    }
+    current.next = other.head;
+}
+
+
+6. عكس قائمة باستخدام مساحة إضافية ثابتة: يمكن عكس القائمة عن طريق التكرار على العقد وتغيير المؤشر next لكل عقدة.
+
+public void reverse() {
+    Node previous = null;
+    Node current = head;
+    while (current != null) {
+        Node nextNode = current.next;
+        current.next = previous;
+        previous = current;
+        current = nextNode;
+    }
+    head = previous;
+}
+
+
+
