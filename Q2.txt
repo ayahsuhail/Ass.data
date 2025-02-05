@@ -1,24 +1,12 @@
-  دالة لحذف جميع العناصر من المكدس بشكلٍ .
+ تنفيذ clone() لـ ArrayQueue
 
+الحل:
 
-الحل
-
-public class StackClear {
-    public static void clearStack(Stack<Integer> stack) {
-        if (!stack.isEmpty()) {
-            stack.pop();
-            clearStack(stack);
-        }
-    }
-
-    public static void main(String[] args) {
-        Stack<Integer> stack = new Stack<>();
-        stack.push(1);
-        stack.push(2);
-        stack.push(3);
-
-        clearStack(stack);
-
-        System.out.println("Stack after clearing: " + stack);
-    }
+@Override
+protected ArrayQueue<E> clone() {
+    ArrayQueue<E> clonedQueue = new ArrayQueue<>(data.length);
+    clonedQueue.size = this.size;
+    clonedQueue.front = this.front;
+    System.arraycopy(this.data, 0, clonedQueue.data, 0, this.data.length);
+    return clonedQueue;
 }

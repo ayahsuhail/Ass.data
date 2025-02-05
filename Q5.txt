@@ -1,51 +1,44 @@
-5. تنفيذ برنامج لحل تعبير Postfix وطباعة النتيجة
-
+ محاكاة Round Robin Scheduling
+لدينا طابور من العمليات.
+يتم تنفيذ كل عملية لمدة زمنية T.
+بعد ذلك، تنتقل العملية إلى نهاية الطابور إذا لم تنتهِ بعد.
 
 الحل:
 
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class PostfixEvaluator {
-    public static int evaluatePostfix(String expression) {
-        Stack<Integer> stack = new Stack<>();
+class Process {
+    String name;
+    int time;
 
-        for (char ch : expression.toCharArray()) {
-            if (Character.isDigit(ch)) {
-                // تحويل الحرف إلى رقم وإضافته إلى المكدس
-                stack.push(ch - '0');
-            } else {
-                // استخراج الرقمين الأخيرين من المكدس
-                int b = stack.pop();
-                int a = stack.pop();
-
-                // تنفيذ العملية الحسابية
-                switch (ch) {
-                    case '+': stack.push(a + b); break;
-                    case '-': stack.push(a - b); break;
-                    case '*': stack.push(a * b); break;
-                    case '/': stack.push(a / b); break;
-                }
-            }
-        }
-
-        // النتيجة النهائية
-        return stack.pop();
-    }
-
-    public static void main(String[] args) {
-        String postfixExp = "52+83-*4/"; // تعبير Postfix مكافئ لـ ((5 + 2) * (8 - 3)) / 4
-        int result = evaluatePostfix(postfixExp);
-        System.out.println("Result: " + result); // الناتج: 4
+    public Process(String name, int time) {
+        this.name = name;
+        this.time = time;
     }
 }
 
+public class RoundRobin {
+    public static void simulateRoundRobin(Queue<Process> queue, int quantum) {
+        while (!queue.isEmpty()) {
+            Process current = queue.poll();
+            if (current.time > quantum) {
+                System.out.println("Executing " + current.name + " for " + quantum + " ms");
+                current.time -= quantum;
+                queue.add(current);
+            } else {
+                System.out.println("Executing " + current.name + " for " + current.time + " ms (Completed)");
+            }
+        }
+    }
 
-المخرجات:
+    public static void main(String[] args) {
+        Queue<Process> queue = new LinkedList<>();
+        queue.add(new Process("P1", 10));
+        queue.add(new Process("P2", 5));
+        queue.add(new Process("P3", 8));
 
-1. 5 و 2 يتم إدخالهما إلى المكدس
-2. + يتم تطبيقها  (5 + 2) = 7  إدخال 7 في المكدس
-3. 8 و 3 يتم إدخالهما إلى المكدس
-4. - يتم تطبيقها  (8 - 3) = 5  إدخال 5 في المكدس
-5. * يتم تطبيقها  (7 * 5) = 35  إدخال 35 في المكدس
-6. 4 يتم إدخاله إلى المكدس
-7. / يتم تطبيقها  (35 / 4) = 4 (القيمة الصحيحة)
+        int quantum = 4;
+        simulateRoundRobin(queue, quantum);
+    }
+}

@@ -1,44 +1,70 @@
-يجب نقل جميع العناصر من المكدس 
-𝑆
-s إلى 
-𝑇
-T بحيث يصبح أول عنصر في 
-𝑆
-S هو آخر عنصر في 
-𝑇
-T.
-يمكن تنفيذ ذلك باستخدام مكدس وسيط لمساعدة في الحفاظ على الترتيب.
+إنشاء دالة rotate() تقوم بإجراء مماثل لـ enqueue(dequeue()) ولكن بطريقة أكثر كفاءة.
+يمكننا تحقيق ذلك بتحريك المؤشر الأمامي front إلى العنصر التالي بدلًا من إزالة العنصر ثم إعادة إضافته.
 
+public class ArrayQueue<E> {
+    private E[] data;
+    private int front = 0;
+    private int size = 0;
+    private static final int CAPACITY = 10;
 
-الحل 
-import java.util.Stack;
+    public ArrayQueue() {
+        this(CAPACITY);
+    }
 
-public class StackTransfer {
-    public static void transfer(Stack<Integer> S, Stack<Integer> T) {
-        Stack<Integer> temp = new Stack<>();
-        
-        // نقل العناصر إلى المكدس المؤقت لعكس الترتيب
-        while (!S.isEmpty()) {
-            temp.push(S.pop());
-        }
-        
-        // نقل العناصر من المكدس المؤقت إلى T
-        while (!temp.isEmpty()) {
-            T.push(temp.pop());
+    public ArrayQueue(int capacity) {
+        data = (E[]) new Object[capacity];
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public void enqueue(E e) {
+        if (size == data.length) throw new IllegalStateException("Queue is full");
+        int avail = (front + size) % data.length;
+        data[avail] = e;
+        size++;
+    }
+
+    public E dequeue() {
+        if (isEmpty()) return null;
+        E result = data[front];
+        data[front] = null;
+        front = (front + 1) % data.length;
+        size--;
+        return result;
+    }
+
+    public void rotate() {
+        if (size > 1) {
+            front = (front + 1) % data.length;
         }
     }
 
+    public void printQueue() {
+        for (int i = 0; i < size; i++) {
+            System.out.print(data[(front + i) % data.length] + " ");
+        }
+        System.out.println();
+    }
+
     public static void main(String[] args) {
-        Stack<Integer> S = new Stack<>();
-        Stack<Integer> T = new Stack<>();
+        ArrayQueue<Integer> queue = new ArrayQueue<>();
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        queue.enqueue(4);
 
-        S.push(1);
-        S.push(2);
-        S.push(3);
-        S.push(4);
+        System.out.print("Before rotate: ");
+        queue.printQueue();
 
-        transfer(S, T);
+        queue.rotate();
 
-        System.out.println("Stack T after transfer: " + T);
+        System.out.print("After rotate: ");
+        queue.printQueue();
     }
 }

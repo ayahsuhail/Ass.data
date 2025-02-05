@@ -1,36 +1,94 @@
-وصف طريقة غير تكرارية لتحليل تعبير في التدوين العكسي (Postfix Evaluation)
-الوصف:
-
-استخدم مكدس لتخزين القيم عند مواجهة الأرقام.
-عند مواجهة عملية حسابية، خذ رقمين من المكدس، طبق العملية، ثم أعد النتيجة إلى المكدس.
-في النهاية، ستكون القيمة المتبقية في المكدس هي الناتج النهائي.
+concatenate(LinkedQueue Q2)
+ 
 
 الحل:
-import java.util.Stack;
+public class LinkedQueue<E> {
+    private static class Node<E> {
+        E element;
+        Node<E> next;
 
-public class PostfixEvaluation {
-    public static int evaluatePostfix(String expression) {
-        Stack<Integer> stack = new Stack<>();
-
-        for (char ch : expression.toCharArray()) {
-            if (Character.isDigit(ch)) {
-                stack.push(ch - '0'); // تحويل الحرف إلى رقم
-            } else {
-                int b = stack.pop();
-                int a = stack.pop();
-                switch (ch) {
-                    case '+': stack.push(a + b); break;
-                    case '-': stack.push(a - b); break;
-                    case '*': stack.push(a * b); break;
-                    case '/': stack.push(a / b); break;
-                }
-            }
+        public Node(E element, Node<E> next) {
+            this.element = element;
+            this.next = next;
         }
-        return stack.pop();
+    }
+
+    private Node<E> front, rear;
+    private int size = 0;
+
+    public LinkedQueue() {
+        front = rear = null;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public void enqueue(E e) {
+        Node<E> newNode = new Node<>(e, null);
+        if (isEmpty()) {
+            front = rear = newNode;
+        } else {
+            rear.next = newNode;
+            rear = newNode;
+        }
+        size++;
+    }
+
+    public E dequeue() {
+        if (isEmpty()) return null;
+        E result = front.element;
+        front = front.next;
+        if (front == null) rear = null;
+        size--;
+        return result;
+    }
+
+    public void concatenate(LinkedQueue<E> Q2) {
+        if (Q2.isEmpty()) return;
+        if (this.isEmpty()) {
+            this.front = Q2.front;
+            this.rear = Q2.rear;
+        } else {
+            this.rear.next = Q2.front;
+            this.rear = Q2.rear;
+        }
+        this.size += Q2.size;
+        Q2.front = Q2.rear = null;
+        Q2.size = 0;
+    }
+
+    public void printQueue() {
+        Node<E> temp = front;
+        while (temp != null) {
+            System.out.print(temp.element + " ");
+            temp = temp.next;
+        }
+        System.out.println();
     }
 
     public static void main(String[] args) {
-        String postfixExp = "52+83-*4/";
-        System.out.println("Result: " + evaluatePostfix(postfixExp)); // الناتج: 4
+        LinkedQueue<Integer> Q1 = new LinkedQueue<>();
+        LinkedQueue<Integer> Q2 = new LinkedQueue<>();
+
+        Q1.enqueue(1);
+        Q1.enqueue(2);
+        Q1.enqueue(3);
+
+        Q2.enqueue(4);
+        Q2.enqueue(5);
+        Q2.enqueue(6);
+
+        System.out.print("Queue 1 before concatenate: ");
+        Q1.printQueue();
+        System.out.print("Queue 2 before concatenate: ");
+        Q2.printQueue();
+
+        Q1.concatenate(Q2);
+
+        System.out.print("Queue 1 after concatenate: ");
+        Q1.printQueue();
+        System.out.print("Queue 2 after concatenate (should be empty): ");
+        Q2.printQueue();
     }
 }

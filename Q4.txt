@@ -1,45 +1,29 @@
- تنفيذ طريقة clone() لمكدس يستخدم المصفوفات.
+حل مشكلة يوسف (Josephus Problem)
+
+لدينا N أشخاص في دائرة.
+كل K شخص يتم حذف واحد منهم حتى يبقى شخص واحد فقط.
+نستخدم الطابور لمحاكاة الدائرة.
 
 الحل:
 
-public class ArrayStack implements Cloneable {
-    private int[] stack;
-    private int top;
+public class JosephusProblem {
+    public static int solveJosephus(int n, int k) {
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 1; i <= n; i++) {
+            queue.add(i);
+        }
 
-    public ArrayStack(int capacity) {
-        stack = new int[capacity];
-        top = -1;
-    }
-
-    public void push(int value) {
-        if (top == stack.length - 1) throw new StackOverflowError();
-        stack[++top] = value;
-    }
-
-    public int pop() {
-        if (top == -1) throw new IllegalStateException("Stack is empty");
-        return stack[top--];
-    }
-
-    public boolean isEmpty() {
-        return top == -1;
-    }
-
-    @Override
-    protected ArrayStack clone() {
-        ArrayStack clonedStack = new ArrayStack(stack.length);
-        clonedStack.top = this.top;
-        System.arraycopy(this.stack, 0, clonedStack.stack, 0, this.top + 1);
-        return clonedStack;
+        while (queue.size() > 1) {
+            for (int i = 0; i < k - 1; i++) {
+                queue.add(queue.remove()); // تدوير العناصر
+            }
+            queue.remove(); // حذف الشخص
+        }
+        return queue.peek();
     }
 
     public static void main(String[] args) {
-        ArrayStack original = new ArrayStack(5);
-        original.push(10);
-        original.push(20);
-
-        ArrayStack cloned = original.clone();
-        System.out.println("Original stack top: " + original.pop());
-        System.out.println("Cloned stack top: " + cloned.pop());
+        int n = 7, k = 3;
+        System.out.println("Last person standing: " + solveJosephus(n, k));
     }
 }
