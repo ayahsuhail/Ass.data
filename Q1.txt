@@ -1,6 +1,44 @@
-حل السؤال R-3.1
+يجب نقل جميع العناصر من المكدس 
+𝑆
+s إلى 
+𝑇
+T بحيث يصبح أول عنصر في 
+𝑆
+S هو آخر عنصر في 
+𝑇
+T.
+يمكن تنفيذ ذلك باستخدام مكدس وسيط لمساعدة في الحفاظ على الترتيب.
 
-الإجابة:
 
-الأعداد هي: 9، 13، 61، 37، 49.
+الحل 
+import java.util.Stack;
 
+public class StackTransfer {
+    public static void transfer(Stack<Integer> S, Stack<Integer> T) {
+        Stack<Integer> temp = new Stack<>();
+        
+        // نقل العناصر إلى المكدس المؤقت لعكس الترتيب
+        while (!S.isEmpty()) {
+            temp.push(S.pop());
+        }
+        
+        // نقل العناصر من المكدس المؤقت إلى T
+        while (!temp.isEmpty()) {
+            T.push(temp.pop());
+        }
+    }
+
+    public static void main(String[] args) {
+        Stack<Integer> S = new Stack<>();
+        Stack<Integer> T = new Stack<>();
+
+        S.push(1);
+        S.push(2);
+        S.push(3);
+        S.push(4);
+
+        transfer(S, T);
+
+        System.out.println("Stack T after transfer: " + T);
+    }
+}

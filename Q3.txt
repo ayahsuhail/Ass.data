@@ -1,9 +1,36 @@
-public class TestProgression {
+وصف طريقة غير تكرارية لتحليل تعبير في التدوين العكسي (Postfix Evaluation)
+الوصف:
+
+استخدم مكدس لتخزين القيم عند مواجهة الأرقام.
+عند مواجهة عملية حسابية، خذ رقمين من المكدس، طبق العملية، ثم أعد النتيجة إلى المكدس.
+في النهاية، ستكون القيمة المتبقية في المكدس هي الناتج النهائي.
+
+الحل:
+import java.util.Stack;
+
+public class PostfixEvaluation {
+    public static int evaluatePostfix(String expression) {
+        Stack<Integer> stack = new Stack<>();
+
+        for (char ch : expression.toCharArray()) {
+            if (Character.isDigit(ch)) {
+                stack.push(ch - '0'); // تحويل الحرف إلى رقم
+            } else {
+                int b = stack.pop();
+                int a = stack.pop();
+                switch (ch) {
+                    case '+': stack.push(a + b); break;
+                    case '-': stack.push(a - b); break;
+                    case '*': stack.push(a * b); break;
+                    case '/': stack.push(a / b); break;
+                }
+            }
+        }
+        return stack.pop();
+    }
+
     public static void main(String[] args) {
-        // Create a Fibonacci progression starting with 2 and 2
-        FibonacciProgression fibonacci = new FibonacciProgression(2, 2);
-        
-        // Print the eighth value of the progression
-        System.out.println("Eighth value: " + fibonacci.nextValue(8));
+        String postfixExp = "52+83-*4/";
+        System.out.println("Result: " + evaluatePostfix(postfixExp)); // الناتج: 4
     }
 }

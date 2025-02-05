@@ -1,84 +1,51 @@
-في جافا، عند مقارنة مصفوفتين من نوع int، سواء كانت أحادية البعد أو متعددة الأبعاد، هناك نوعان من الاختبارات: الاختبار السطحي (Shallow Equality) والاختبار العميق (Deep Equality).
-
-المصفوفات أحادية البعد من نوع int:
-
-الاختبار السطحي (Shallow Equality):
-
-يتم باستخدام العامل ==، الذي يتحقق مما إذا كانت المصفوفتان تشيران إلى نفس الموقع في الذاكرة.
-
-لا يقارن هذا الاختبار محتويات المصفوفتين.
-
-مثال:
-
-int[] arrayA = {1, 2, 3};
-int[] arrayB = {1, 2, 3};
-System.out.println(arrayA == arrayB); // الناتج: false
-
-على الرغم من أن arrayA وarrayB تحتويان على نفس العناصر، إلا أن == يُرجع false لأنهما كائنان مختلفان في الذاكرة.
+5. تنفيذ برنامج لحل تعبير Postfix وطباعة النتيجة
 
 
-الاختبار العميق (Deep Equality):
+الحل:
 
-لمقارنة محتويات مصفوفتين أحاديتا البعد، يمكن استخدام الدالة Arrays.equals().
+import java.util.Stack;
 
-تتحقق هذه الدالة مما إذا كانت المصفوفتان لهما نفس الطول ونفس العناصر بالترتيب.
+public class PostfixEvaluator {
+    public static int evaluatePostfix(String expression) {
+        Stack<Integer> stack = new Stack<>();
 
-مثال:
+        for (char ch : expression.toCharArray()) {
+            if (Character.isDigit(ch)) {
+                // تحويل الحرف إلى رقم وإضافته إلى المكدس
+                stack.push(ch - '0');
+            } else {
+                // استخراج الرقمين الأخيرين من المكدس
+                int b = stack.pop();
+                int a = stack.pop();
 
-import java.util.Arrays;
+                // تنفيذ العملية الحسابية
+                switch (ch) {
+                    case '+': stack.push(a + b); break;
+                    case '-': stack.push(a - b); break;
+                    case '*': stack.push(a * b); break;
+                    case '/': stack.push(a / b); break;
+                }
+            }
+        }
 
-int[] arrayA = {1, 2, 3};
-int[] arrayB = {1, 2, 3};
-System.out.println(Arrays.equals(arrayA, arrayB)); // الناتج: true
+        // النتيجة النهائية
+        return stack.pop();
+    }
 
-هنا، Arrays.equals() تُرجع true لأن محتويات arrayA وarrayB متطابقة.
-
-
-
-المصفوفات ثنائية البعد من نوع int:
-
-الاختبار السطحي (Shallow Equality):
-
-باستخدام العامل ==، يتم التحقق مما إذا كانت المصفوفتان تشيران إلى نفس الكائن في الذاكرة.
-
-هذا لا يقارن محتويات المصفوفتين.
-
-مثال:
-
-int[][] arrayA = {{1, 2}, {3, 4}};
-int[][] arrayB = {{1, 2}, {3, 4}};
-System.out.println(arrayA == arrayB); // الناتج: false
-
-على الرغم من أن arrayA وarrayB تحتويان على نفس العناصر، إلا أن == يُرجع false لأنهما كائنان مختلفان في الذاكرة.
-
-
-الاختبار العميق (Deep Equality):
-
-لمقارنة محتويات مصفوفتين ثنائيتا البعد، يمكن استخدام الدالة Arrays.deepEquals().
-
-تقوم هذه الدالة بمقارنة المصفوفات المتداخلة عنصرًا بعنصر.
-
-مثال:
-
-import java.util.Arrays;
-
-int[][] arrayA = {{1, 2}, {3, 4}};
-int[][] arrayB = {{1, 2}, {3, 4}};
-System.out.println(Arrays.deepEquals(arrayA, arrayB)); // الناتج: true
-
-هنا، Arrays.deepEquals() تُرجع true لأن جميع العناصر المقابلة في arrayA وarrayB متساوية.
+    public static void main(String[] args) {
+        String postfixExp = "52+83-*4/"; // تعبير Postfix مكافئ لـ ((5 + 2) * (8 - 3)) / 4
+        int result = evaluatePostfix(postfixExp);
+        System.out.println("Result: " + result); // الناتج: 4
+    }
+}
 
 
+المخرجات:
 
-ملخص:
-
-للمصفوفات أحادية البعد من نوع int، استخدم Arrays.equals() لإجراء اختبار عميق يقارن المحتويات.
-
-للمصفوفات متعددة الأبعاد من نوع int، استخدم Arrays.deepEquals() لمقارنة المحتويات المتداخلة.
-
-العامل == يتحقق فقط من تساوي المراجع (الاختبار السطحي)، وليس تساوي المحتويات.
-
-
-لمزيد من المعلومات حول التعامل مع المصفوفات في جافا، يمكنك الاطلاع على التعامل مع المصفوفات في جافا - Harmash.
-
-بالإضافة إلى ذلك، يمكنك مشاهدة الفيديو التالي الذي يشرح مقارنة المصفوفات في جافا:
+1. 5 و 2 يتم إدخالهما إلى المكدس
+2. + يتم تطبيقها  (5 + 2) = 7  إدخال 7 في المكدس
+3. 8 و 3 يتم إدخالهما إلى المكدس
+4. - يتم تطبيقها  (8 - 3) = 5  إدخال 5 في المكدس
+5. * يتم تطبيقها  (7 * 5) = 35  إدخال 35 في المكدس
+6. 4 يتم إدخاله إلى المكدس
+7. / يتم تطبيقها  (35 / 4) = 4 (القيمة الصحيحة)

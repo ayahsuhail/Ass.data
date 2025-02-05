@@ -1,13 +1,24 @@
-public boolean charge(double price) {
-    boolean isSuccess = super.charge(price);
+  دالة لحذف جميع العناصر من المكدس بشكلٍ .
 
-    // إذا فشلت عملية الخصم، تحقق إذا كان يمكن خصم العقوبة
-    if (!isSuccess) {
-        // تحقق إذا كانت العقوبة ستبقى ضمن الحد
-        if (getBalance() + 5 <= getCreditLimit()) {
-            super.charge(5); // فرض العقوبة فقط إذا كانت لا تتجاوز الحد
+
+الحل
+
+public class StackClear {
+    public static void clearStack(Stack<Integer> stack) {
+        if (!stack.isEmpty()) {
+            stack.pop();
+            clearStack(stack);
         }
     }
 
-    return isSuccess;
+    public static void main(String[] args) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        clearStack(stack);
+
+        System.out.println("Stack after clearing: " + stack);
+    }
 }

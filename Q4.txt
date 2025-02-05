@@ -1,40 +1,45 @@
-شرح الحل:
+ تنفيذ طريقة clone() لمكدس يستخدم المصفوفات.
 
-لحساب العدد الأقصى من الاستدعاءات لطريقة nextValue() في صف ArithmeticProgression قبل حدوث فيضان عددي (Overflow) لقيمة من النوع long، نستخدم معادلة المتتابعة الحسابية:
+الحل:
 
-\text{value}(n) = \text{first} + (n - 1) \times \text{increment}
+public class ArrayStack implements Cloneable {
+    private int[] stack;
+    private int top;
 
-النقاط الرئيسية:
+    public ArrayStack(int capacity) {
+        stack = new int[capacity];
+        top = -1;
+    }
 
-1. أقصى قيمة لنوع long في Java:
-النوع long يمكنه تخزين قيم تصل إلى ، وهي تقريبًا .
+    public void push(int value) {
+        if (top == stack.length - 1) throw new StackOverflowError();
+        stack[++top] = value;
+    }
 
+    public int pop() {
+        if (top == -1) throw new IllegalStateException("Stack is empty");
+        return stack[top--];
+    }
 
-2. المعادلة المستخدمة:
-إذا كان increment = 128 (أي الفرق بين القيم المتتالية)، فإن:
+    public boolean isEmpty() {
+        return top == -1;
+    }
 
+    @Override
+    protected ArrayStack clone() {
+        ArrayStack clonedStack = new ArrayStack(stack.length);
+        clonedStack.top = this.top;
+        System.arraycopy(this.stack, 0, clonedStack.stack, 0, this.top + 1);
+        return clonedStack;
+    }
 
+    public static void main(String[] args) {
+        ArrayStack original = new ArrayStack(5);
+        original.push(10);
+        original.push(20);
 
-(n - 1) \times 128 \leq 2^{63} - 1
-
-3. حساب الحد الأقصى لـ :
-بقسمة الطرفين على 128:
-
-
-
-n - 1 \leq \frac{2^{63} - 1}{128}
-
-n - 1 \approx \frac{9.22 \times 10^{18}}{128} \approx 7.18 \times 10^{16}
-
-4. إضافة 1 للحصول على :
-
-
-
-n \approx 7.18 \times 10^{16}
-
-
----
-
-الإجابة النهائية:
-
-يمكنك استدعاء طريقة nextValue() حوالي  مرة قبل أن يحدث فيضان عددي (Overflow) لقيمة من النوع long.
+        ArrayStack cloned = original.clone();
+        System.out.println("Original stack top: " + original.pop());
+        System.out.println("Cloned stack top: " + cloned.pop());
+    }
+}
